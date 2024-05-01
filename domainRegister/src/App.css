@@ -34,3 +34,11 @@ button:hover {
 .connect-metamask {
   margin: 15px 15px 0 0;
 }
+
+.withdraw-funds-container {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  gap: 15px;
+  align-items: center;
+}

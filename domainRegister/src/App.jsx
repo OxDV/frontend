@@ -20,13 +20,17 @@ function App() {
   const [amount, setAmount] = useState('');
   const [id, setId] = useState(null);
 
+  // WITHDRAW FUNDS
+  const [fundsToWithdraw, setFundsToWithdraw] = useState(null);
+  const [selectedToken, setSelectedToken] = useState('eth');
+
+
 
 
 
   const [domain, setDomain] = useState('');
   const [infoDomain, setInfoDomain] = useState('');
   const [tokenAddress, setTokenAddress] = useState(null)
-  const [fundsToWithdraw, setFundsToWithdraw] = useState(null)
 
 
   const connectWallet = async () => {
@@ -73,6 +77,21 @@ function App() {
     }
   };
 
+  const withdrawFunds = async () => {
+    if (!contract) {
+      alert('Connect Wallet!');
+      return;
+    }
+    try {
+      const tokenAddress = selectedToken === 'eth' ? '0x0000000000000000000000000000000000000000' : usdtToken;
+      const withdrawAmountOwner = selectedToken === 'eth' ? ethers.parseEther(fundsToWithdraw) : fundsToWithdraw * 10 ** 6;
+      const withdrawFunds = await contract.withdrawFunds(tokenAddress, withdrawAmountOwner);
+      console.log('Txs', withdrawFunds);
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+
   // const withdrawRewards = async (token) => {
   //   if (!contract) return;
   //   const transaction = await contract.withdrawRewards(token, ethers.utils.parseEther(amount));
@@ -98,24 +117,6 @@ function App() {
   //   }
   // };
 
-  // const withdrawFunds = async (token) => {
-  //   if (!contract) {
-  //     alert('Connect Wallet!');
-  //     return;
-  //   }
-  //   try {
-  //     const withdrawFunds = await contract.withdrawFunds(token, ethers.parseEther(fundsToWithdraw));
-  //     console.log('Txs', withdrawFunds);
-  //   } catch (error) {
-  //     console.error('Error fetching controller info:', error);
-  //     if (error.message.includes('execution reverted: DomainNotRegistered')) {
-  //       alert('Error: The domain is not registered.');
-  //     } else {
-  //       alert('An error occurred: ' + error.message);
-  //     }
-  //   }
-  // };
-
 
   return (
     <div className='main-page'>
@@ -129,15 +130,22 @@ function App() {
         <button onClick={registerDomainWithETH}>Register Domain with ETH</button>
         <button onClick={registerDomainWithUSDT}>Register Domain with USDT</button>
       </div>
+      <div className='withdraw-funds-container'>
+        <input value={fundsToWithdraw} onChange={(e) => setFundsToWithdraw(e.target.value)} placeholder="Amount to withdraw" />
+        <div>
+          <label>
+            <input type="radio" value="eth" checked={selectedToken === 'eth'} onChange={() => setSelectedToken('eth')} /> ETH
+          </label>
+          <label>
+            <input type="radio" value="usdt" checked={selectedToken === 'usdt'} onChange={() => setSelectedToken('usdt')} /> USDT
+          </label>
+        </div>
+        <button onClick={withdrawFunds}>Withdraw Funds(only Owner)</button>
+      </div>
       {/* <div>
         <input value={domain} onChange={(e) => setDomain(e.target.value)} placeholder="Registered Domain" />
         <button onClick={() => withdrawRewards(ethers.constants.AddressZero)}>Withdraw ETH</button>
         <button onClick={() => withdrawRewards(usdtToken)}>Withdraw USDT</button>
-      </div>
-      <div>
-        <input value={fundsToWithdraw} onChange={(e) => setFundsToWithdraw(e.target.value)} placeholder="Amount to withdraw" />
-        <button onClick={() => withdrawFunds('0x0000000000000000000000000000000000000000')}>Withdraw ETH(only owner)</button>
-        <button onClick={() => withdrawFunds(usdtToken)}>Withdraw USDT(only owner)</button>
       </div>
       <div>
         <input value={infoDomain} onChange={(e) => setInfoDomain(e.target.value)} placeholder="Domain" />
