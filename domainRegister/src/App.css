@@ -18,12 +18,12 @@ button:hover {
   color: white;
 }
 
-.registar-domain-container {
+/* .registar-domain-container {
   display: flex;
   width: 100%;
   justify-content: center;
   gap: 15px;
-}
+} */
 
 .connect-button {
   display: flex;
@@ -35,10 +35,23 @@ button:hover {
   margin: 15px 15px 0 0;
 }
 
-.withdraw-funds-container {
+.withdraw-funds-container,
+.get-fee-container,
+.registar-domain-container,
+.set-fee-container,
+.domains-registered-container,
+.domain-controller-container,
+.contoller-balance-container,
+.set-domain-reward-container,
+.get-domain-reward-container,
+.withdraw-rewards-container {
   display: flex;
   width: 100%;
   justify-content: center;
   gap: 15px;
   align-items: center;
+}
+
+.domains-registered-container {
+  flex-direction: column;
 }
