@@ -129,7 +129,7 @@ function App() {
     try {
       const tokenAddress = selectedTokenForReward === 'eth' ? '0x0000000000000000000000000000000000000000' : usdtToken;
       const withdrawAmount = selectedTokenForReward === 'eth' ? ethers.parseEther(rewardToWithdraw) : rewardToWithdraw * 10 ** 6;
-      const withdrawFunds = await contract.withdrawFunds(tokenAddress, withdrawAmount);
+      const withdrawFunds = await contract.withdrawRewards(tokenAddress, withdrawAmount);
       setControllerBalance(null);
       console.log('Txs', withdrawFunds);
     } catch (error) {
@@ -251,32 +251,6 @@ function App() {
     console.log('domains', domains);
     setRegisteredDomains(domains);
   };
-
-  // const withdrawRewards = async (token) => {
-  //   if (!contract) return;
-  //   const transaction = await contract.withdrawRewards(token, ethers.utils.parseEther(amount));
-  //   await transaction.wait();
-  //   console.log('Funds withdrawn:', transaction);
-  // };
-
-  // const getControllerInfo = async () => {
-  //   if (!contract) {
-  //     alert('Connect Wallet!');
-  //     return;
-  //   }
-  //   try {
-  //     const controllerAddress = await contract.getDomainController(infoDomain);
-  //     console.log('Controller address:', controllerAddress);
-  //   } catch (error) {
-  //     console.error('Error fetching controller info:', error);
-  //     if (error.message.includes('execution reverted: DomainNotRegistered')) {
-  //       alert('Error: The domain is not registered.');
-  //     } else {
-  //       alert('An error occurred: ' + error.message);
-  //     }
-  //   }
-  // };
-
 
   return (
     <div className='main-page'>
