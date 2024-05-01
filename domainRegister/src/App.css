@@ -1,0 +1,36 @@
+.main-page {
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+}
+
+button {
+  background-color: white;
+  padding: 10px 20px;
+  border: 1px solid black;
+  border-radius: 10px;
+  transition: 0.3s ease;
+}
+
+button:hover {
+  cursor: pointer;
+  background-color: black;
+  color: white;
+}
+
+.registar-domain-container {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  gap: 15px;
+}
+
+.connect-button {
+  display: flex;
+  width: 100%;
+  justify-content: end;
+}
+
+.connect-metamask {
+  margin: 15px 15px 0 0;
+}
